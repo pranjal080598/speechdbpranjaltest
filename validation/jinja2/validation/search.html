@@ -1,0 +1,41 @@
+{#
+      Copyright (C) 2018 Eddie Antonio Santos <easantos@ualberta.ca>
+
+      This program is free software: you can redistribute it and/or modify
+      it under the terms of the GNU Affero General Public License as
+      published by the Free Software Foundation, either version 3 of the
+      License, or (at your option) any later version.
+
+      This program is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Affero General Public License for more details.
+
+      You should have received a copy of the GNU Affero General Public License
+      along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{#
+ # Displays search results for phrases.
+ #}
+
+{% extends 'validation/_base.html' %}
+{% import 'validation/_macros.html' as macros %}
+{% import 'validation/_segment_card.html' as segment %}
+
+
+{% block content %}
+<h2> Results for <q>{{ search_term }}</q> </h2>
+    {%  for phrase in phrases %}
+        {{ segment.segment_card(phrase, recordings, speakers, is_linguist, is_expert, auth, forms, csrf_token, request, language) }}
+    {% endfor %} {# phrase in phrases #}
+    <script type="module"
+            src="https://cdn.jsdelivr.net/gh/mattdiamond/Recorderjs@08e7abd99739be6946f19f6806ccb368138f2dd3/dist/recorder.js"></script>
+    <script type="application/javascript" src="{{ static('recordFromEntry.js') }}"></script>
+
+    <nav>
+      {{ macros.pagination_with_query(phrases, 'validation:search_phrases', query, encode_query_with_page) }}
+    </nav>
+{% endblock content %}
+
+{# vim: set ft=htmldjango :#}

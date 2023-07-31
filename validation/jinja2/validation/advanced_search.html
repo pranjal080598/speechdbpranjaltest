@@ -1,0 +1,77 @@
+{#
+    # Displays search form to perform an advanced search
+#}
+   
+{% extends 'validation/_base.html' %}
+{% import 'validation/_macros.html' as macros %}
+
+{% block content %}
+<form method="GET" action="{{
+    url('validation:advanced_search_results', language.code)
+  }}">
+    {{ language.endonym }} phrase:
+    <input class="form-control mr-sm-2" name="transcription" type="search" placeholder="Search" aria-label="Search"><br>
+    English phrase:
+    <input class="form-control mr-sm-2" name="translation" type="search" placeholder="Search" aria-label="Search"><br>
+    Analysis:
+    <input class="form-control mr-sm-2" name="analysis" type="search" placeholder="Search" aria-label="Search"><br>
+    Lemma:
+    <input class="form-control mr-sm-2" name="lemma" type="search" placeholder="Search" aria-label="Search"><br>
+
+    <input type="checkbox" id="exact" name="exact" value="exact"> Exact match <br >
+
+    Status:
+    <input type="radio" id="all" name="status" value="all" checked>
+    <label for="all">All</label>  
+    <input type="radio" id="new" name="status" value="new">
+    <label for="new">New</label>
+    <input type="radio" id="linked" name="status" value="linked">
+    <label for="linked">Linked</label>
+    {% if is_linguist %}
+        <input type="radio" id="auto-val" name="status" value="auto-validated">
+        <label for="auto-val">Auto-validated</label>
+        <input type="radio" id="user-sub" name="status" value="user-submitted">
+        <label for="user-sub">User-submitted</label> <br>
+    {% else %}
+        <br>
+    {% endif %}
+
+
+    Recording quality:
+    <input type="radio" id="all" name="quality" value="all" checked>
+    <label for="all">All</label>
+    <input type="radio" id="good" name="quality" value="good">
+    <label for="good">Good</label>
+    <input type="radio" id="bad" name="quality" value="bad">
+    <label for="bad">Bad</label> <br>
+
+    Type:
+    <input type="radio" id="all" name="kind" value="all" checked>
+    <label for="all">All</label>
+    <input type="radio" id="word" name="kind" value="word">
+    <label for="word">Word</label>
+    <input type="radio" id="sentence" name="kind" value="sentence">
+    <label for="sentence">Sentence</label> <br>
+
+    Semantic class:
+    <select name="semantic_class" id="semantic_class">
+        <option value=""> - </option>
+              {% for section in semantic_classes %}
+                <option value="{{ section.classification }}">{{ section.classification }}</option>
+              {% endfor %}
+          </select><br>
+
+    Speaker:
+    <input type="checkbox" id="all_speakers" name="speaker-options" value="all">
+    <label for="all_spakers">All</label><br>
+        {% for speaker in speakers %}
+        <input type="checkbox" id="{{ speaker }}" name="speaker-options" value="{{ speaker }}">
+        <label for="{{ speaker }}">{{ speaker }}</label><br>
+        {% endfor %}
+
+    <input type="hidden" name="speaker" id="speaker">
+
+    <button data-cy="advanced-form-submit" class="btn button button--success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+
+  {% endblock content %}

@@ -1,0 +1,18 @@
+{% extends 'validation/_base.html' %}
+{% import 'validation/_macros.html' as macros %}
+
+
+{% block content %}
+<div class="login">
+<p class="login__title">Register as a New User</p>
+    <div class="login__form">
+        <form action="" id="register-form" method="POST">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            {{ form }}
+            <div class="center">
+                <input type="submit" value="Register" id="register-button" class="login__button">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
